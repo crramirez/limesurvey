@@ -1,12 +1,5 @@
 
-#FROM 10.4.76.4:5000/lamp
 FROM tutum/lamp
-#RUN sed -i 's/archive.ubuntu.com/repolinuxpnma.ve.sbp.com/g' /etc/apt/sources.list
-#RUN sed -i 's/security.ubuntu.com/repolinuxpnma.ve.sbp.com/g' /etc/apt/sources.list
-#RUN sed -i 's/deb-src/deb-src/g' /etc/apt/sources.list
-#RUN sed -i 's/deb-src/#deb-src/g' /etc/apt/sources.list
-
-#RUN apt-get update
 
 RUN apt-get install -q -y curl php5-gd php5-ldap php5-imap; apt-get clean ; \
 	php5enmod imap
