@@ -10,4 +10,4 @@ This docker image easies limesurvey installation. It includes a MySQL database a
 
 To run limesurvey in 80 port just:
 
-  docker pull crramirez/limesurvey:latest
+    docker pull crramirez/limesurvey:latest
