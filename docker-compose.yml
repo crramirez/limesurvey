@@ -1,0 +1,7 @@
+limesurvey:
+  ports:
+    - "80:80"
+  image:
+    crramirez/limesurvey:latest
+
+
