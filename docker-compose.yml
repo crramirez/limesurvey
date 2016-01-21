@@ -1,7 +1,10 @@
 limesurvey:
   ports:
     - "80:80"
+  volumes:
+    - ~/limesurvey/mysql:/var/lib/mysql
   image:
     crramirez/limesurvey:latest
 
+  
 
