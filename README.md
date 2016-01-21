@@ -1,4 +1,4 @@
-limesurvey
+LimeSurvey
 ==========
 
 LimeSurvey - the most popular
