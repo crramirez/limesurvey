@@ -48,3 +48,7 @@ You can use docker compose to automate the above command if you create a file ca
         - ~/limesurvey/mysql:/var/lib/mysql
       image:
         crramirez/limesurvey:latest
+
+And run:
+
+    docker-compose up
