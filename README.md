@@ -18,9 +18,9 @@ This docker image easies limesurvey installation. It includes a MySQL database a
 2. Go to a browser and type http://localhost
 3. Click Next until you reach the *Database configuration* screen
 4. Then enter the following in the field:
-  - *Database type* MySQL
-  - *Database location* localhost
-  - *Database user* root
-  - *Database password*
-  - *Database name* limesurvey #Or whatever you like
-  - *Table prefix* lime_ #Or whatever you like
+  - **Database type** *MySQL*
+  - **Database location** *localhost*
+  - **Database user** root*
+  - **Database password**
+  - **Database name** *limesurvey* #Or whatever you like
+  - **Table prefix** *lime_* #Or whatever you like
