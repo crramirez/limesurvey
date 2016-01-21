@@ -24,3 +24,27 @@ To run limesurvey in 80 port just:
   - **Database password**
   - **Database name** *limesurvey* #Or whatever you like
   - **Table prefix** *lime_* #Or whatever you like
+
+You are ready to go.
+
+## Database in volumes
+
+If you want to preserve data in the event of a container deletion, or version upgrade, you can assign the MySQL data into a volume which maps to a directory in your host:
+
+    docker run -d --name limesurvey -v ~/limesurvey/mysql:/var/lib/mysql -p 80:80 crramirez/limesurvey:latest
+    
+If you delete the container simply run again the above command. The installation page will appear again. Don't worry just put the same parameters as before and limesurvey will recognize the database.
+
+With this method the images are not preserved. This README will be update to fix this case.
+
+## Using Docker Compose
+
+You can use docker compose to automate the above command if you create a file called *docker-compose.yml* and put in there the following:
+
+    limesurvey:
+      ports:
+        - "80:80"
+      volumes:
+        - ~/limesurvey/mysql:/var/lib/mysql
+      image:
+        crramirez/limesurvey:latest
