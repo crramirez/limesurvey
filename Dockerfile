@@ -8,7 +8,7 @@ RUN apt-get update ; \
 
 RUN rm -rf /app; \
 	mkdir -p /app; \
-	curl -L -o /app/limesurvey.tar.bz2 https://www.limesurvey.org/en/stable-release?download=1423:limesurvey206plus-build160121tarbz2 ; \
+	curl -L -o /app/limesurvey.tar.bz2 https://www.limesurvey.org/stable-release?download=1453:limesurvey250plus-build160204tarbz2 ; \
 	tar --strip-components=1 -C /app -xvjf /app/limesurvey.tar.bz2 ; \
 	rm  /app/limesurvey.tar.bz2 ; \
 	chown -R www-data:www-data /app
