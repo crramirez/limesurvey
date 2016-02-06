@@ -3,6 +3,7 @@ limesurvey:
     - "80:80"
   volumes:
     - ~/limesurvey/mysql:/var/lib/mysql
+    - ~/limesurvey/upload:/app/upload
   image:
     crramirez/limesurvey:latest
 
