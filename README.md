@@ -63,4 +63,4 @@ You can use docker compose to automate the above command if you create a file ca
 
 And run:
 
-    docker-compose up
+    docker-compose up -d
