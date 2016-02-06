@@ -6,12 +6,10 @@ RUN apt-get update ; \
 	apt-get install -q -y curl php5-gd php5-ldap php5-imap; apt-get clean ; \
 	php5enmod imap
 
-RUN rm -rf /app; \
-	mkdir -p /app; \
+RUN rm -rf /app 
+ADD limesurvey.tar.bz2 /
+RUN mv limesurvey app; \
 	mkdir -p /uploadstruct; \
-	curl -L -o /app/limesurvey.tar.bz2 https://www.limesurvey.org/stable-release?download=1453:limesurvey250plus-build160204tarbz2 ; \
-	tar --strip-components=1 -C /app -xvjf /app/limesurvey.tar.bz2 ; \
-	rm  /app/limesurvey.tar.bz2 ; \
 	chown -R www-data:www-data /app
 
 RUN cp -r /app/upload/* /uploadstruct ; \
