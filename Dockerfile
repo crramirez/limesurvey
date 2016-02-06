@@ -22,6 +22,8 @@ RUN chown www-data:www-data /var/lib/php5
 ADD apache_default /etc/apache2/sites-available/000-default.conf
 ADD start.sh /
 
+RUN chmod +x /start.sh
+
 VOLUME /app/upload
 
 EXPOSE 80 3306
