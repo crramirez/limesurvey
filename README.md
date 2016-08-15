@@ -57,10 +57,14 @@ You can use docker compose to automate the above command if you create a file ca
       ports:
         - "80:80"
       volumes:
-        - ~/limesurvey/mysql:/var/lib/mysql
-        - ~/limesurvey/upload:/app/upload
+        - mysql:/var/lib/mysql
+        - upload:/app/upload
       image:
         crramirez/limesurvey:latest
+    volumes:
+      mysql:
+      upload:
+
 
 
 And run:
