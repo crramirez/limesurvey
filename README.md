@@ -12,8 +12,8 @@ This docker image easies limesurvey installation. It includes a MySQL database a
 
 To run limesurvey in 80 port just:
 
-    docker pull crramirez/limesurvey:latest
-    docker run -d --name limesurvey -p 80:80 crramirez/limesurvey:latest
+    docker pull acspri/limesurvey:latest
+    docker run -d --name limesurvey -p 80:80 acspri/limesurvey:latest
 
 
 1. Go to a browser and type http://localhost
@@ -33,7 +33,7 @@ You are ready to go.
 If you want to preserve data in the event of a container deletion, or version upgrade, you can assign the MySQL data into a named volume:
     
     docker volume create --name mysql
-    docker run -d --name limesurvey -v mysql:/var/lib/mysql -p 80:80 crramirez/limesurvey:latest
+    docker run -d --name limesurvey -v mysql:/var/lib/mysql -p 80:80 acspri/limesurvey:latest
     
 
 If you delete the container simply run again the above command. The installation page will appear again. Don't worry just put the same parameters as before and limesurvey will recognize the database.
@@ -44,7 +44,7 @@ If you delete the container simply run again the above command. The installation
 If you want to preserve the uploaded files in the event of a container deletion, or version upgrade, you can assign the upload folder into a named volume:
 
     docker volume create --name upload
-    docker run -d --name limesurvey -v upload:/app/upload -v mysql:/var/lib/mysql -p 80:80 crramirez/limesurvey:latest
+    docker run -d --name limesurvey -v upload:/app/upload -v mysql:/var/lib/mysql -p 80:80 acspri/limesurvey:latest
 
 
 If you delete the container simply run again the above command. The installation page will appear again. Don't worry just put the same parameters as before and limesurvey will recognize the database and the uploaded files including images.
@@ -60,7 +60,7 @@ You can use docker compose to automate the above command if you create a file ca
         - ~/limesurvey/mysql:/var/lib/mysql
         - ~/limesurvey/upload:/app/upload
       image:
-        crramirez/limesurvey:latest
+        acspri/limesurvey:latest
 
 
 And run:
