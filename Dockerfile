@@ -3,10 +3,11 @@ FROM tutum/lamp
 
 RUN apt-get update ; \
 	apt-get upgrade -q -y ;\
-	apt-get install -q -y curl php5-gd php5-ldap php5-imap; apt-get clean ; \
+	apt-get install -q -y curl php5-gd php5-ldap php5-imap sendmail; \
+	apt-get clean ; \
 	php5enmod imap
 
-RUN rm -rf /app 
+RUN rm -rf /app
 ADD limesurvey.tar.bz2 /
 RUN mv limesurvey app; \
 	mkdir -p /uploadstruct; \
@@ -26,4 +27,3 @@ VOLUME /app/upload
 
 EXPOSE 80 3306
 CMD ["/start.sh"]
-
