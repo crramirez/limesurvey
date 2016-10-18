@@ -53,14 +53,16 @@ If you delete the container simply run again the above command. The installation
 
 You can use docker compose to automate the above command if you create a file called *docker-compose.yml* and put in there the following:
 
-    limesurvey:
-      ports:
-        - "80:80"
-      volumes:
-        - mysql:/var/lib/mysql
-        - upload:/app/upload
-      image:
-        crramirez/limesurvey:latest
+    version: '2'
+    services:
+      limesurvey:
+        ports:
+          - "80:80"
+        volumes:
+          - mysql:/var/lib/mysql
+          - upload:/app/upload
+        image:
+          crramirez/limesurvey:latest
     volumes:
       mysql:
       upload:
