@@ -2,6 +2,7 @@ Listen 8080
 <VirtualHost *:*>
         ServerAdmin webmaster@localhost
 
+        Alias /${HTTP_LOCATION} /var/www/html
         DocumentRoot /var/www/html
         <Directory />
                 Options FollowSymLinks

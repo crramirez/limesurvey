@@ -28,6 +28,14 @@ To run limesurvey in 80 port just:
 
 You are ready to go.
 
+### Environment variables
+
+To run limesurvey in a different http location set the `HTTP_LOCATION` environment variable.
+
+    docker run -d --name limesurvey -p 80:80 -e HTTP_LOCATION="surveys" crramirez/limesurvey:latest
+
+Limesurvey will then be available via http://localhost/surveys.
+
 ## Database in volumes
 
 If you want to preserve data in the event of a container deletion, or version upgrade, you can assign the MySQL data into a named volume:
