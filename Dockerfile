@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y libc-client-dev libfreetype6-dev libmcr
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \ 
     && docker-php-ext-install imap 
 
+RUN docker-php-ext-install pdo pdo_mysql
+
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
