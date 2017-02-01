@@ -25,7 +25,7 @@ file_env() {
 
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	file_env 'LIMESURVEY_DB_HOST' 'mysql'
-	file_env 'LIMESURVEY_ADMIN_PASSWORD' 'password'
+	file_env 'LIMESURVEY_TABLE_PREFIX' ''
 	# if we're linked to MySQL and thus have credentials already, let's use them
 	file_env 'LIMESURVEY_DB_USER' "${MYSQL_ENV_MYSQL_USER:-root}"
 	if [ "$LIMESURVEY_DB_USER" = 'root' ]; then
@@ -48,11 +48,13 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 			echo >&2 "WARNING: $(pwd) is not empty - press Ctrl+C now if this is an error!"
 			( set -x; ls -A; sleep 10 )
 		fi
-		cp -dR /usr/src/limesurvey/* .
+		cp -dR /usr/src/limesurvey/. .
+
+		cp application/config/config-sample-mysql.php application/config/config.php
 
 		echo >&2 "Complete! Limesurvey has been successfully copied to $(pwd)"
 	else
-        echo >&2 "Limesurvey found in $(pwd) - not copying."
+        	echo >&2 "Limesurvey found in $(pwd) - not copying."
 	fi
 
     chown www-data:www-data -R tmp 
@@ -72,8 +74,13 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	set_config() {
 		key="$1"
 		value="$2"
-		sed -i "/$key/s/'[^']*'/'$value'/2" config.inc.php
+		sed -i "/$key/s/'[^']*'/'$value'/2" application/config/config.php
 	}
+
+	set_config 'connectionString' "mysql:host=$LIMESURVEY_DB_HOST;port=3306;dbname=$LIMESURVEY_DB_NAME;"
+	set_config 'tablePrefix' "$LIMESURVEY_TABLE_PREFIX"
+	set_config 'username' "$LIMESURVEY_DB_USER"
+	set_config 'password' "$LIMESURVEY_DB_PASSWORD"
 
 	TERM=dumb php -- "$LIMESURVEY_DB_HOST" "$LIMESURVEY_DB_USER" "$LIMESURVEY_DB_PASSWORD" "$LIMESURVEY_DB_NAME" <<'EOPHP'
 <?php
