@@ -51,37 +51,36 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		
 		cp -dR /usr/src/limesurvey/. .
 
-		cp application/config/config-sample-mysql.php application/config/config.php
-
 		echo >&2 "Complete! Limesurvey has been successfully copied to $(pwd)"
 	else
         	echo >&2 "Limesurvey found in $(pwd) - not copying."
+
+		# see http://stackoverflow.com/a/2705678/433558
+		sed_escape_lhs() {
+			echo "$@" | sed -e 's/[]\/$*.^|[]/\\&/g'
+		}
+		sed_escape_rhs() {
+			echo "$@" | sed -e 's/[\/&]/\\&/g'
+		}
+		php_escape() {
+			php -r 'var_export(('$2') $argv[1]);' -- "$1"
+		}
+		set_config() {
+			key="$1"
+			value="$2"
+			sed -i "/$key/s/'[^']*'/'$value'/2" application/config/config.php
+		}
+
+		set_config 'connectionString' "mysql:host=$LIMESURVEY_DB_HOST;port=3306;dbname=$LIMESURVEY_DB_NAME;"
+		set_config 'tablePrefix' "$LIMESURVEY_TABLE_PREFIX"
+		set_config 'username' "$LIMESURVEY_DB_USER"
+		set_config 'password' "$LIMESURVEY_DB_PASSWORD"
+
 	fi
 
     chown www-data:www-data -R tmp 
     chown www-data:www-data -R upload 
     chown www-data:www-data -R application/config
-
-	# see http://stackoverflow.com/a/2705678/433558
-	sed_escape_lhs() {
-		echo "$@" | sed -e 's/[]\/$*.^|[]/\\&/g'
-	}
-	sed_escape_rhs() {
-		echo "$@" | sed -e 's/[\/&]/\\&/g'
-	}
-	php_escape() {
-		php -r 'var_export(('$2') $argv[1]);' -- "$1"
-	}
-	set_config() {
-		key="$1"
-		value="$2"
-		sed -i "/$key/s/'[^']*'/'$value'/2" application/config/config.php
-	}
-
-	set_config 'connectionString' "mysql:host=$LIMESURVEY_DB_HOST;port=3306;dbname=$LIMESURVEY_DB_NAME;"
-	set_config 'tablePrefix' "$LIMESURVEY_TABLE_PREFIX"
-	set_config 'username' "$LIMESURVEY_DB_USER"
-	set_config 'password' "$LIMESURVEY_DB_PASSWORD"
 
 	TERM=dumb php -- "$LIMESURVEY_DB_HOST" "$LIMESURVEY_DB_USER" "$LIMESURVEY_DB_PASSWORD" "$LIMESURVEY_DB_NAME" <<'EOPHP'
 <?php
