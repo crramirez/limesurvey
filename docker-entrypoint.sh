@@ -48,6 +48,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 			echo >&2 "WARNING: $(pwd) is not empty - press Ctrl+C now if this is an error!"
 			( set -x; ls -A; sleep 10 )
 		fi
+		
 		cp -dR /usr/src/limesurvey/. .
 
 		cp application/config/config-sample-mysql.php application/config/config.php

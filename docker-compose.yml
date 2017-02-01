@@ -7,6 +7,7 @@ services:
     ports:
       - 8082:80
     environment:
+      LIMESURVEY_DB_PASSWORD: example
 
   mysql:
     image: mariadb

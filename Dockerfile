@@ -27,7 +27,7 @@ VOLUME ["/var/www/html"]
 RUN set -x \
 	&& curl -SL "$DOWNLOAD_URL" -o /tmp/lime.tar.gz \
 	&& mkdir /usr/src/limesurvey \
-    && tar xf /tmp/lime.tar.gz limesurvey --strip-components=1 -C /usr/src/limesurvey \ 
+    && tar xf /tmp/lime.tar.gz --strip-components=1 -C /usr/src/limesurvey \ 
     && chown -R www-data:www-data /usr/src/limesurvey
 
 #Set PHP defaults for Limesurvey (allow bigger uploads)
