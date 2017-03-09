@@ -1,10 +1,15 @@
 version: '2'
 services:
+  mysql:
+    image: mysql:latest
+    volumes:
+      - mysql:/var/lib/mysql
   limesurvey:
+    depends_on:
+      - mysql
     ports:
       - "80:80"
     volumes:
-      - mysql:/var/lib/mysql
       - upload:/app/upload
     image:
       crramirez/limesurvey:latest
