@@ -1,9 +1,17 @@
 version: '2'
+
 services:
   mysql:
     image: mysql:latest
     volumes:
       - mysql:/var/lib/mysql
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: limesurvey
+        MYSQL_DATABASE: limesurvey
+        MYSQL_USER: limesurvey
+        MYSQL_PASSWORD: limesurvey  
+
   limesurvey:
     depends_on:
       - mysql
@@ -13,6 +21,7 @@ services:
       - upload:/app/upload
     image:
       crramirez/limesurvey:latest
+
 volumes:
   mysql:
   upload:
