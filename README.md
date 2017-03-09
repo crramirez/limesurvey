@@ -59,24 +59,10 @@ If you delete the container simply run again the above command. The installation
 
 ## Using Docker Compose
 
-You can use docker compose to automate the above command if you create a file called *docker-compose.yml* and put in there the following:
+The repository includes a *docker-compose.yml* file which you can use to setup a basic container structure. You can add a [*docker-compose.override.yml*](https://docs.docker.com/compose/extends/#multiple-compose-files) to edit the default configuration.
 
-    version: '2'
-    services:
-      limesurvey:
-        ports:
-          - "80:80"
-        volumes:
-          - mysql:/var/lib/mysql
-          - upload:/app/upload
-        image:
-          crramirez/limesurvey:latest
-    volumes:
-      mysql:
-      upload:
+**Warning**: The *docker-compose.yml* contains default MySQL database credentials. It is highly recommended to change these in a production environment.
 
-
-
-And run:
+To run:
 
     docker-compose up -d
