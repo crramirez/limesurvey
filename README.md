@@ -59,10 +59,33 @@ If you delete the container simply run again the above command. The installation
 
 ## Using Docker Compose
 
-The repository includes a *docker-compose.yml* file which you can use to setup a basic container structure. You can add a [*docker-compose.override.yml*](https://docs.docker.com/compose/extends/#multiple-compose-files) to edit the default configuration.
+You can use docker compose to automate the above command if you create a file called *docker-compose.yml* and put in there the following:
 
-**Warning**: The *docker-compose.yml* contains default MySQL database credentials. It is highly recommended to change these in a production environment.
+    version: '2'
+    services:
+      limesurvey:
+        ports:
+          - "80:80"
+        volumes:
+          - mysql:/var/lib/mysql
+          - upload:/app/upload
+        image:
+          crramirez/limesurvey:latest
+    volumes:
+      mysql:
+      upload:
 
 To run:
 
+    docker-compose up -d
+
+The [GitHub repository](https://github.com/crramirez/limesurvey) includes this [*docker-compose.yml*](https://github.com/crramirez/limesurvey/blob/master/docker-compose.yml) file which you can use to setup a basic container structure. You can add a [*docker-compose.override.yml*](https://docs.docker.com/compose/extends/#multiple-compose-files) to edit the default configuration.
+
+The repository also contains a Docker Compose configuration which builds a separate MySQL-container named [*docker-compose.mysql.yml*](https://github.com/crramirez/limesurvey/blob/master/docker-compose.mysql.yml).
+ 
+**Warning**: The *docker-compose.mysql.yml* contains default MySQL database credentials. It is highly recommended to change these in a production environment.
+
+To run with a separate MySQL-container:
+
+    export COMPOSE_FILE=docker-compose.mysql.yml
     docker-compose up -d
