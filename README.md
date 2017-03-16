@@ -75,8 +75,17 @@ You can use docker compose to automate the above command if you create a file ca
       mysql:
       upload:
 
+To run:
 
+    docker-compose up -d
 
-And run:
+The [GitHub repository](https://github.com/crramirez/limesurvey) includes this [*docker-compose.yml*](https://github.com/crramirez/limesurvey/blob/master/docker-compose.yml) file which you can use to setup a basic container structure. You can add a [*docker-compose.override.yml*](https://docs.docker.com/compose/extends/#multiple-compose-files) to edit the default configuration.
 
+The repository also contains a Docker Compose configuration which builds a separate MySQL-container named [*docker-compose.mysql.yml*](https://github.com/crramirez/limesurvey/blob/master/docker-compose.mysql.yml).
+ 
+**Warning**: The *docker-compose.mysql.yml* contains default MySQL database credentials. It is highly recommended to change these in a production environment.
+
+To run with a separate MySQL-container:
+
+    export COMPOSE_FILE=docker-compose.mysql.yml
     docker-compose up -d
