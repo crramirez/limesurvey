@@ -20,8 +20,10 @@ RUN chown www-data:www-data /var/lib/php5
 
 ADD apache_default /etc/apache2/sites-available/000-default.conf
 ADD start.sh /
+ADD run.sh /
 
-RUN chmod +x /start.sh
+RUN chmod +x /start.sh && \
+    chmod +x /run.sh
 
 VOLUME /app/upload
 
