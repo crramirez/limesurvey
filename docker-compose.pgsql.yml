@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  pgsql:
+    environment:
+      - "POSTGRES_PASSWORD=limesurvey"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgres:/var/lib/postgresql/data"
+    image:
+      postgres
+
+  limesurvey:
+    links:
+      - pgsql
+
+    environment:
+      - "DISABLE_MYSQL=yes"
+
+    ports:
+      - "80:80"
+    volumes:
+      - upload:/app/upload
+    image:
+      crramirez/limesurvey:latest
+
+volumes:
+  postgres:
+  upload:
