@@ -8,15 +8,14 @@ services:
     restart: always
     environment:
         MYSQL_ROOT_PASSWORD: limesurvey
-        MYSQL_DATABASE: limesurvey
-        MYSQL_USER: limesurvey
-        MYSQL_PASSWORD: limesurvey  
 
   limesurvey:
-    depends_on:
-      - mysql
     links:
       - mysql
+
+    environment:
+      - "DISABLE_MYSQL=yes"
+
     ports:
       - "80:80"
     volumes:
