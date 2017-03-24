@@ -1,17 +1,15 @@
-FROM php:5.6-apache
+FROM php:7-apache
 
-ENV DOWNLOAD_URL https://www.limesurvey.org/stable-release?download=1984:limesurvey2620%20170124targz
+ENV DOWNLOAD_URL https://www.limesurvey.org/stable-release?download=2014:limesurvey2641%20170310targz
 
 # install the PHP extensions we need
 RUN apt-get update && apt-get install -y libc-client-dev libfreetype6-dev libmcrypt-dev libpng12-dev libjpeg-dev libldap2-dev zlib1g-dev libkrb5-dev && rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/  --with-png-dir=/usr --with-jpeg-dir=/usr \
-	&& docker-php-ext-install gd mysqli mysql opcache zip iconv mcrypt \
-    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \ 
+	&& docker-php-ext-install gd mysqli pdo pdo_mysql opcache zip iconv mcrypt
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \ 
     && docker-php-ext-install ldap \ 
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \ 
     && docker-php-ext-install imap 
-
-RUN docker-php-ext-install pdo pdo_mysql
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
