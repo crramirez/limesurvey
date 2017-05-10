@@ -28,6 +28,8 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	file_env 'LIMESURVEY_TABLE_PREFIX' ''
     file_env 'LIMESURVEY_ADMIN_NAME' 'Lime Administrator'
     file_env 'LIMESURVEY_ADMIN_EMAIL' 'lime@lime.lime'
+    file_env 'LIMESURVEY_ADMIN_USER' ''
+    file_env 'LIMESURVEY_ADMIN_PASSWORD' ''
 
 	# if we're linked to MySQL and thus have credentials already, let's use them
 	file_env 'LIMESURVEY_DB_USER' "${MYSQL_ENV_MYSQL_USER:-root}"
