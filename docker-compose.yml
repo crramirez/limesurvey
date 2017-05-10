@@ -8,6 +8,10 @@ services:
       - 8082:80
     environment:
       LIMESURVEY_DB_PASSWORD: example
+      LIMESURVEY_ADMIN_USER: admin
+      LIMESURVEY_ADMIN_PASSWORD: password
+      LIMESURVEY_ADMIN_NAME: Lime Administrator
+      LIMESURVEY_ADMIN_EMAIL: lime@lime.lime
 
   mysql:
     image: mariadb

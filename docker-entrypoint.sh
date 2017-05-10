@@ -52,39 +52,46 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		cp -dR /usr/src/limesurvey/. .
 
 		echo >&2 "Complete! Limesurvey has been successfully copied to $(pwd)"
-	else
-        	echo >&2 "Limesurvey found in $(pwd) - not copying."
-
-		# see http://stackoverflow.com/a/2705678/433558
-		sed_escape_lhs() {
-			echo "$@" | sed -e 's/[]\/$*.^|[]/\\&/g'
-		}
-		sed_escape_rhs() {
-			echo "$@" | sed -e 's/[\/&]/\\&/g'
-		}
-		php_escape() {
-			php -r 'var_export(('$2') $argv[1]);' -- "$1"
-		}
-		set_config() {
-			key="$1"
-			value="$2"
-			sed -i "/$key/s/'[^']*'/'$value'/2" application/config/config.php
-		}
-
-		set_config 'connectionString' "mysql:host=$LIMESURVEY_DB_HOST;port=3306;dbname=$LIMESURVEY_DB_NAME;"
-		set_config 'tablePrefix' "$LIMESURVEY_TABLE_PREFIX"
-		set_config 'username' "$LIMESURVEY_DB_USER"
-		set_config 'password' "$LIMESURVEY_DB_PASSWORD"
-
+    else
+    	echo >&2 "Limesurvey found in $(pwd) - not copying."
 	fi
+
+    if ! [ -e application/config/config.php ]; then
+        echo >&2 "Copying default config file..."
+        cp application/config/config-sample-mysql.php application/config/config.php
+    fi
+
+    # see http://stackoverflow.com/a/2705678/433558
+    sed_escape_lhs() {
+        echo "$@" | sed -e 's/[]\/$*.^|[]/\\&/g'
+    }
+    sed_escape_rhs() {
+        echo "$@" | sed -e 's/[\/&]/\\&/g'
+    }
+    php_escape() {
+        php -r 'var_export(('$2') $argv[1]);' -- "$1"
+    }
+    set_config() {
+        key="$1"
+        value="$2"
+        sed -i "/$key/s/'[^']*'/'$value'/2" application/config/config.php
+    }
+
+    set_config 'connectionString' "mysql:host=$LIMESURVEY_DB_HOST;port=3306;dbname=$LIMESURVEY_DB_NAME;"
+    set_config 'tablePrefix' "$LIMESURVEY_TABLE_PREFIX"
+    set_config 'username' "$LIMESURVEY_DB_USER"
+    set_config 'password' "$LIMESURVEY_DB_PASSWORD"
+
 
     chown www-data:www-data -R tmp 
     chown www-data:www-data -R upload 
     chown www-data:www-data -R application/config
 
-	TERM=dumb php -- "$LIMESURVEY_DB_HOST" "$LIMESURVEY_DB_USER" "$LIMESURVEY_DB_PASSWORD" "$LIMESURVEY_DB_NAME" <<'EOPHP'
+	DBSTATUS=$(TERM=dumb php -- "$LIMESURVEY_DB_HOST" "$LIMESURVEY_DB_USER" "$LIMESURVEY_DB_PASSWORD" "$LIMESURVEY_DB_NAME" "$LIMESURVEY_TABLE_PREFIX" <<'EOPHP'
 <?php
 // database might not exist, so let's try creating it (just to be safe)
+
+error_reporting(E_ERROR | E_PARSE);
 
 $stderr = fopen('php://stderr', 'w');
 
@@ -114,8 +121,30 @@ if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_strin
 	exit(1);
 }
 
+$mysql->select_db($mysql->real_escape_string($argv[4]));
+
+$inst = $mysql->query("SELECT * FROM `" . $mysql->real_escape_string($argv[5]) . "users" . "`");
+
 $mysql->close();
+
+if ($inst->num_rows > 0) {
+	exit("DBEXISTS");
+} else {
+	exit(0);
+}
+
 EOPHP
+)
+
+	if [ "$DBSTATUS" != "DBEXISTS" ]; then
+        echo >&2 'Database not yet populated - installing Limesurvey database'
+	    php application/commands/console.php install "$LIMESURVEY_ADMIN_USER" "$LIMESURVEY_ADMIN_PASSWORD" "$LIMESURVEY_ADMIN_NAME" "$LIMESURVEY_ADMIN_EMAIL"
+	fi
+
+	if [ -n "$LIMESURVEY_ADMIN_USER" ] && [ -n "$LIMESURVEY_ADMIN_PASSWORD" ]; then
+		echo >&2 'Updating password for admin user'
+        php application/commands/console.php resetpassword "$LIMESURVEY_ADMIN_USER" "$LIMESURVEY_ADMIN_PASSWORD"
+	fi
 
 fi
 
