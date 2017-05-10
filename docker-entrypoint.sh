@@ -26,6 +26,9 @@ file_env() {
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	file_env 'LIMESURVEY_DB_HOST' 'mysql'
 	file_env 'LIMESURVEY_TABLE_PREFIX' ''
+    file_env 'LIMESURVEY_ADMIN_NAME' 'Lime Administrator'
+    file_env 'LIMESURVEY_ADMIN_EMAIL' 'lime@lime.lime'
+
 	# if we're linked to MySQL and thus have credentials already, let's use them
 	file_env 'LIMESURVEY_DB_USER' "${MYSQL_ENV_MYSQL_USER:-root}"
 	if [ "$LIMESURVEY_DB_USER" = 'root' ]; then
@@ -136,7 +139,7 @@ if ($inst->num_rows > 0) {
 EOPHP
 )
 
-	if [ "$DBSTATUS" != "DBEXISTS" ]; then
+	if [ "$DBSTATUS" != "DBEXISTS" ] &&  [ -n "$LIMESURVEY_ADMIN_USER" ] && [ -n "$LIMESURVEY_ADMIN_PASSWORD" ]; then
         echo >&2 'Database not yet populated - installing Limesurvey database'
 	    php application/commands/console.php install "$LIMESURVEY_ADMIN_USER" "$LIMESURVEY_ADMIN_PASSWORD" "$LIMESURVEY_ADMIN_NAME" "$LIMESURVEY_ADMIN_EMAIL"
 	fi
