@@ -6,7 +6,7 @@ Free Open Source Software survey tool on the web.
 
 https://www.limesurvey.org/en/
 
-This docker image is for Limesurvey on apache/php in its own container. It accepts environment variables to update the configuration file.
+This docker image is for Limesurvey on apache/php in its own container. It accepts environment variables to update the configuration file. On first run it will automatically create the database if a username and password are supplied, and on subsequent runs it can update the administrator password if provided as an environment variable.
 
 # How to use this image
 
@@ -21,6 +21,10 @@ The following environment variables are also honored for configuring your Limesu
 -	`-e LIMESURVEY_DB_PASSWORD=...` (defaults to the value of the `MYSQL_ROOT_PASSWORD` environment variable from the linked `mysql` container)
 -	`-e LIMESURVEY_DB_NAME=...` (defaults to "limesurvey")
 -	`-e LIMESURVEY_TABLE_PREFIX=...` (defaults to "" - set this to "lime_" for example if your database has a prefix)
+-	`-e LIMESURVEY_ADMIN_USER=...` (defaults to "" - the username of the Limesurvey administrator)
+-	`-e LIMESURVEY_ADMIN_PASSWORD=...` (defaults to "" - the password of the Limesurvey administrator)
+-	`-e LIMESURVEY_ADMIN_NAME=...` (defaults to "Lime Administrator" - The full name of the Limesurvey administrator)
+-	`-e LIMESURVEY_ADMIN_EMAIL=...` (defaults to "lime@lime.lime" - The email address of the Limesurvey administrator)
 
 If the `LIMESURVEY_DB_NAME` specified does not already exist on the given MySQL server, it will be created automatically upon startup of the `limesurvey` container, provided that the `LIMESURVEY_DB_USER` specified has the necessary permissions to create it.
 
@@ -49,11 +53,15 @@ version: '2'
 services:
 
   limesurvey:
-    image: limesurvey
+    image: acspri/limesurvey
     ports:
       - 8082:80
     environment:
       LIMESURVEY_DB_PASSWORD: example
+      LIMESURVEY_ADMIN_USER: admin
+      LIMESURVEY_ADMIN_PASSWORD: password
+      LIMESURVEY_ADMIN_NAME: Lime Administrator
+      LIMESURVEY_ADMIN_EMAIL: lime@lime.lime
 
   mysql:
     image: mariadb
