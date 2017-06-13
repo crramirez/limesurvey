@@ -58,7 +58,16 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 
 		echo >&2 "Complete! Limesurvey has been successfully copied to $(pwd)"
     else
-    	echo >&2 "Limesurvey found in $(pwd) - not copying."
+    	echo >&2 "Limesurvey found in $(pwd) - updating...."
+		mkdir /tmp/backup
+		mv upload /tmp/backup
+		mv application/config/config.php /tmp/backup
+		rm -rf *
+		cp -dR /usr/src/limesurvey/. .
+		rm -rf upload
+		mv /tmp/backup/upload .
+		mv /tmp/backup/config.php application/config
+		rm -rf /tmp/backup
 	fi
 
     if ! [ -e application/config/config.php ]; then
@@ -86,6 +95,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     set_config 'tablePrefix' "$LIMESURVEY_TABLE_PREFIX"
     set_config 'username' "$LIMESURVEY_DB_USER"
     set_config 'password' "$LIMESURVEY_DB_PASSWORD"
+	set_config 'urlFormat' "path"
 
 
     chown www-data:www-data -R tmp 

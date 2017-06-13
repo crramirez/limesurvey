@@ -1,7 +1,7 @@
 FROM php:7-apache
 
-ENV DOWNLOAD_URL https://www.limesurvey.org/stable-release?download=2049:limesurvey2650%20170502targz
-
+ENV DOWNLOAD_URL https://www.limesurvey.org/stable-release?download=2064:limesurvey2654%20170612targz
+ 
 # install the PHP extensions we need
 RUN apt-get update && apt-get install -y libc-client-dev libfreetype6-dev libmcrypt-dev libpng12-dev libjpeg-dev libldap2-dev zlib1g-dev libkrb5-dev && rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/  --with-png-dir=/usr --with-jpeg-dir=/usr \
@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y libc-client-dev libfreetype6-dev libmcr
     && docker-php-ext-install ldap \ 
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \ 
     && docker-php-ext-install imap 
+
+RUN a2enmod rewrite
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
