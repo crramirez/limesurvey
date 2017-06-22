@@ -30,6 +30,8 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     file_env 'LIMESURVEY_ADMIN_EMAIL' 'lime@lime.lime'
     file_env 'LIMESURVEY_ADMIN_USER' ''
     file_env 'LIMESURVEY_ADMIN_PASSWORD' ''
+    file_env 'LIMESURVEY_DEBUG' '0'
+    file_env 'LIMESURVEY_SQL_DEBUG' '0'
 
 	# if we're linked to MySQL and thus have credentials already, let's use them
 	file_env 'LIMESURVEY_DB_USER' "${MYSQL_ENV_MYSQL_USER:-root}"
@@ -88,14 +90,16 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     set_config() {
         key="$1"
         value="$2"
-        sed -i "/$key/s/'[^']*'/'$value'/2" application/config/config.php
+        sed -i "/'$key'/s/>\([^,]*\),/>$value,/1"  application/config/config.php
     }
 
-    set_config 'connectionString' "mysql:host=$LIMESURVEY_DB_HOST;port=3306;dbname=$LIMESURVEY_DB_NAME;"
-    set_config 'tablePrefix' "$LIMESURVEY_TABLE_PREFIX"
-    set_config 'username' "$LIMESURVEY_DB_USER"
-    set_config 'password' "$LIMESURVEY_DB_PASSWORD"
-	set_config 'urlFormat' "path"
+    set_config 'connectionString' "'mysql:host=$LIMESURVEY_DB_HOST;port=3306;dbname=$LIMESURVEY_DB_NAME;'"
+    set_config 'tablePrefix' "'$LIMESURVEY_TABLE_PREFIX'"
+    set_config 'username' "'$LIMESURVEY_DB_USER'"
+    set_config 'password' "'$LIMESURVEY_DB_PASSWORD'"
+	set_config 'urlFormat' "'path'"
+    set_config 'debug' "$LIMESURVEY_DEBUG"
+    set_config 'debugsql' "$LIMESURVEY_SQL_DEBUG"
 
 
     chown www-data:www-data -R tmp 
