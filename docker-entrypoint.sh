@@ -63,11 +63,14 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     	echo >&2 "Limesurvey found in $(pwd) - updating...."
 		mkdir /tmp/backup
 		mv upload /tmp/backup
+        mv plugins /tmp/backup
 		mv application/config/config.php /tmp/backup
 		rm -rf *
 		cp -dR /usr/src/limesurvey/. .
 		rm -rf upload
+        rm -rf plugins
 		mv /tmp/backup/upload .
+        mv /tmp/backup/plugins .
 		mv /tmp/backup/config.php application/config
 		rm -rf /tmp/backup
 	fi
