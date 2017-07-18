@@ -1,6 +1,7 @@
 version: '2'
 services:
   limesurvey:
+    build: .
     ports:
       - "80:80"
     volumes:
