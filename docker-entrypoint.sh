@@ -49,32 +49,6 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		exit 1
 	fi
 
-	if ! [ -e index.php ]; then
-		echo >&2 "Limesurvey not found in $(pwd) - copying now..."
-		if [ "$(ls -A)" ]; then
-			echo >&2 "WARNING: $(pwd) is not empty - press Ctrl+C now if this is an error!"
-			( set -x; ls -A; sleep 10 )
-		fi
-		
-		cp -dR /usr/src/limesurvey/. .
-
-		echo >&2 "Complete! Limesurvey has been successfully copied to $(pwd)"
-    else
-    	echo >&2 "Limesurvey found in $(pwd) - updating...."
-		mkdir /tmp/backup
-		mv upload /tmp/backup
-        mv plugins /tmp/backup
-		mv application/config/config.php /tmp/backup
-		rm -rf *
-		cp -dR /usr/src/limesurvey/. .
-		rm -rf upload
-        rm -rf plugins
-		mv /tmp/backup/upload .
-        mv /tmp/backup/plugins .
-		mv /tmp/backup/config.php application/config
-		rm -rf /tmp/backup
-	fi
-
     if ! [ -e application/config/config.php ]; then
         echo >&2 "Copying default config file..."
         cp application/config/config-sample-mysql.php application/config/config.php

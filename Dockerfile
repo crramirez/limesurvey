@@ -1,6 +1,6 @@
 FROM php:7-apache
 
-ENV DOWNLOAD_URL https://www.limesurvey.org/stable-release?download=2089:limesurvey2671%20170626targz
+ENV DOWNLOAD_URL https://www.limesurvey.org/stable-release?download=2104:limesurvey2673%20170728targz
  
 # install the PHP extensions we need
 RUN apt-get update && apt-get install -y libc-client-dev libfreetype6-dev libmcrypt-dev libpng12-dev libjpeg-dev libldap2-dev zlib1g-dev libkrb5-dev libtidy-dev && rm -rf /var/lib/apt/lists/* \
@@ -24,14 +24,12 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-VOLUME ["/var/www/html"]
-
 RUN set -x \
 	&& curl -SL "$DOWNLOAD_URL" -o /tmp/lime.tar.gz \
 	&& mkdir /usr/src/limesurvey \
     && tar xf /tmp/lime.tar.gz --strip-components=1 -C /usr/src/limesurvey \ 
     && rm /tmp/lime.tar.gz \
-    && chown -R www-data:www-data /usr/src/limesurvey
+    && chown -R www-data:www-data /var/www/html
 
 #Set PHP defaults for Limesurvey (allow bigger uploads)
 RUN { \
@@ -42,6 +40,9 @@ RUN { \
         echo 'max_input_vars=10000'; \
         echo 'date.timezone=UTC'; \
 	} > /usr/local/etc/php/conf.d/uploads.ini
+
+VOLUME ["/var/www/html/plugins"]
+VOLUME ["/var/www/html/upload"]
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh # backwards compat
