@@ -8,6 +8,8 @@ https://www.limesurvey.org/en/
 
 This docker image is for Limesurvey on apache/php in its own container. It accepts environment variables to update the configuration file. On first run it will automatically create the database if a username and password are supplied, and on subsequent runs it can update the administrator password if provided as an environment variable.
 
+Volumes are specified for plugins and upload directories for persistence.
+
 # How to use this image
 
 ```console
@@ -71,7 +73,7 @@ services:
       MYSQL_ROOT_PASSWORD: example
 ```
 
-Run `docker-compose up`, wait for it to initialize completely, and visit `http://localhost:8080` or `http://host-ip:8080`.
+Run `docker-compose up`, wait for it to initialize completely, and visit `http://localhost:8082` or `http://host-ip:8082`.
 
 # Supported Docker versions
 
