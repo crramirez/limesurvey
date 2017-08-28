@@ -50,7 +50,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	fi
 
     if ! [ -e application/config/config.php ]; then
-        echo >&2 "Copying default config file..."
+        echo >&2 "No config file in $(pwd) Copying default config file..."
         cp application/config/config-sample-mysql.php application/config/config.php
     fi
 

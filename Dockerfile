@@ -26,8 +26,7 @@ RUN { \
 
 RUN set -x \
 	&& curl -SL "$DOWNLOAD_URL" -o /tmp/lime.tar.gz \
-	&& mkdir /usr/src/limesurvey \
-    && tar xf /tmp/lime.tar.gz --strip-components=1 -C /usr/src/limesurvey \ 
+    && tar xf /tmp/lime.tar.gz --strip-components=1 -C /var/www/html \ 
     && rm /tmp/lime.tar.gz \
     && chown -R www-data:www-data /var/www/html
 
