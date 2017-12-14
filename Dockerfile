@@ -3,7 +3,7 @@ FROM php:7-apache
 ENV DOWNLOAD_URL https://www.limesurvey.org/stable-release?download=2194:limesurvey2726%20171207targz
  
 # install the PHP extensions we need
-RUN apt-get update && apt-get install -y libc-client-dev libfreetype6-dev libmcrypt-dev libpng12-dev libjpeg-dev libldap2-dev zlib1g-dev libkrb5-dev libtidy-dev && rm -rf /var/lib/apt/lists/* \
+RUN apt-get update && apt-get install -y libc-client-dev libfreetype6-dev libmcrypt-dev libpng-dev libjpeg-dev libldap2-dev zlib1g-dev libkrb5-dev libtidy-dev && rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/  --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd mysqli pdo pdo_mysql opcache zip iconv mcrypt tidy \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \ 
