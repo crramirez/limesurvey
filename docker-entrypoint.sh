@@ -82,7 +82,6 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
     chown www-data:www-data -R tmp 
     chown www-data:www-data -R upload 
     chown www-data:www-data -R application/config
-    chown www-data:www-data -R templates
 
 	DBSTATUS=$(TERM=dumb php -- "$LIMESURVEY_DB_HOST" "$LIMESURVEY_DB_USER" "$LIMESURVEY_DB_PASSWORD" "$LIMESURVEY_DB_NAME" "$LIMESURVEY_TABLE_PREFIX" <<'EOPHP'
 <?php
