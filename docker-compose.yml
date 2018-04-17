@@ -17,3 +17,9 @@ services:
     image: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: example
+
+  mail:
+    image: djfarrelly/maildev
+    ports:
+      - "8081:80"
+
