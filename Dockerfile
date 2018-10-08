@@ -28,10 +28,10 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-ADD limesurvey.tar.bz2 /tmp/lime.tar.bz2
+ADD limesurvey.tar.bz2 /tmp/
 RUN set -x \
-    && tar xjf /tmp/lime.tar.bz2 --strip-components=1 -C /var/www/html \
-    && rm /tmp/lime.tar.bz2 \
+    && mv /tmp/limesurvey/* /var/www/html \
+    && rm -r /tmp/limesurvey \
     && chown -R www-data:www-data /var/www/html
 
 #Set PHP defaults for Limesurvey (allow bigger uploads)
