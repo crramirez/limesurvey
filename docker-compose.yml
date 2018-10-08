@@ -1,14 +1,18 @@
-version: '2'
+version: '3'
+
 services:
+
   limesurvey:
-    build: .
+    image: crramirez/limesurvey:3.14.11
     ports:
-      - "80:80"
+      - 80:80
     volumes:
-      - mysql:/var/lib/mysql
-      - upload:/app/upload
-    image:
-      crramirez/limesurvey:latest
-volumes:
+    - plugins:/var/lib/mysql
+    - upload:/app/upload
+
   mysql:
+    image: mariadb
+
+volumes:
+  plugins:
   upload:
