@@ -32,6 +32,7 @@ ADD limesurvey.tar.bz2 /tmp/
 RUN set -x \
     && mv /tmp/limesurvey/* /var/www/html \
     && rm -r /tmp/limesurvey \
+    && mkdir /var/www/html/upload/surveys \ 
     && chown -R www-data:www-data /var/www/html
 
 #Set PHP defaults for Limesurvey (allow bigger uploads)
