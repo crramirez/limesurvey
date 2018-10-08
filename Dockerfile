@@ -14,6 +14,7 @@ RUN mv limesurvey app; \
 	chown -R www-data:www-data /app
 
 RUN cp -r /app/upload/* /uploadstruct ; \
+    mkdir /uploadstruct/surveys ; \
 	chown -R www-data:www-data /uploadstruct
 
 RUN chown www-data:www-data /var/lib/php5
