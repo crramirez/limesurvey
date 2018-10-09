@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cp -r /uploadstruct/* /app/upload
+cp -a /uploadstruct/* /app/upload
 
 ./run.sh
 
