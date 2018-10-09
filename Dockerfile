@@ -35,6 +35,7 @@ RUN versions=(${LIMESURVEY_VERSION//+/ }) && \
     sed -r -i "s/(config\['buildnumber'\] = ')(.*)('\;$)/\1${version}\3/g" /app/application/config/version.php
 
 VOLUME /app/upload
+VOLUME /app/plugins
 
 EXPOSE 80 3306
 CMD ["/start.sh"]
