@@ -8,6 +8,8 @@ https://www.limesurvey.org/en/
 
 This docker image easies limesurvey installation. It includes a MySQL database as well a web server.
 
+[![Try in PWD](https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png)](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/crramirez/limesurvey/master/docker-compose.yml)
+
 ## Usage
 
 To run limesurvey in 80 port just:
