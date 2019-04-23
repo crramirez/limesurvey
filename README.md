@@ -15,6 +15,10 @@ To run limesurvey in 80 port just:
     docker pull crramirez/limesurvey:latest
     docker run -d --name limesurvey -p 80:80 crramirez/limesurvey:latest
 
+The latest image was upgraded to limesurvey 3, to continue using limesurvey 2 use:
+
+    docker pull crramirez/limesurvey:2
+    docker run -d --name limesurvey -p 80:80 crramirez/limesurvey:2
 
 1. Go to a browser and type http://localhost
 2. Click Next until you reach the *Database configuration* screen
