@@ -8,6 +8,8 @@ https://www.limesurvey.org/en/
 
 This docker image easies limesurvey installation. It includes a MySQL database as well a web server.
 
+[![Try in PWD](https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png)](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/crramirez/limesurvey/master/docker-compose.yml)
+
 ## Usage
 
 To run limesurvey in 80 port just:
@@ -21,7 +23,7 @@ To run limesurvey in 80 port just:
 3. Then enter the following in the field:
   - **Database type** *MySQL*
   - **Database location** *localhost*
-  - **Database user** root*
+  - **Database user** *root*
   - **Database password**
   - **Database name** *limesurvey* #Or whatever you like
   - **Table prefix** *lime_* #Or whatever you like
@@ -81,6 +83,8 @@ To run:
 
 The [GitHub repository](https://github.com/crramirez/limesurvey) includes this [*docker-compose.yml*](https://github.com/crramirez/limesurvey/blob/master/docker-compose.yml) file which you can use to setup a basic container structure. You can add a [*docker-compose.override.yml*](https://docs.docker.com/compose/extends/#multiple-compose-files) to edit the default configuration.
 
+## Separated containers
+### MySQL
 The repository also contains a Docker Compose configuration which builds a separate MySQL-container named [*docker-compose.mysql.yml*](https://github.com/crramirez/limesurvey/blob/master/docker-compose.mysql.yml).
  
 **Warning**: The *docker-compose.mysql.yml* contains default MySQL database credentials. It is highly recommended to change these in a production environment.
@@ -89,3 +93,33 @@ To run with a separate MySQL-container:
 
     export COMPOSE_FILE=docker-compose.mysql.yml
     docker-compose up -d
+    
+1. Go to a browser and type http://localhost
+2. Click Next until you reach the *Database configuration* screen
+3. Then enter the following in the field:
+  - **Database type** *MySQL*
+  - **Database location** *mysql*
+  - **Database user** *root*
+  - **Database password** *limesurvey*
+  - **Database name** *limesurvey* #Or whatever you like
+  - **Table prefix** *lime_* #Or whatever you like
+    
+### PostgreSQL
+The repository also contains a Docker Compose configuration which builds a separate PostgreSQL-container named [*docker-compose.pgsql.yml*](https://github.com/crramirez/limesurvey/blob/master/docker-compose.pgsql.yml).
+ 
+**Warning**: The *docker-compose.pgsql.yml* contains default PostgreSQL database credentials. It is highly recommended to change these in a production environment.
+
+To run with a separate PostgreSQL-container:
+
+    export COMPOSE_FILE=docker-compose.pgsql.yml
+    docker-compose up -d
+    
+1. Go to a browser and type http://localhost
+2. Click Next until you reach the *Database configuration* screen
+3. Then enter the following in the field:
+  - **Database type** *PostgreSQL*
+  - **Database location** *pgsql*
+  - **Database user** *postgres*
+  - **Database password** *limesurvey*
+  - **Database name** *limesurvey* #Or whatever you like
+  - **Table prefix** *lime_* #Or whatever you like
