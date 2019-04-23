@@ -16,8 +16,11 @@ ADD run.sh /
 RUN chmod +x /start.sh && \
     chmod +x /run.sh
 
-ENV LIMESURVEY_VERSION="3.15.0+181008"
+ENV LIMESURVEY_VERSION="3.17.0+190402"
 
+RUN apt-get update -q -y && \
+	apt-get upgrade -q -y
+	
 RUN rm -rf /app && \
     git clone https://github.com/LimeSurvey/LimeSurvey.git && \
     cd LimeSurvey && git checkout ${LIMESURVEY_VERSION} && cd .. && \
