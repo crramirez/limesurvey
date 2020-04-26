@@ -2,7 +2,7 @@ version: '2'
 
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:5
     volumes:
       - mysql:/var/lib/mysql
     restart: always
