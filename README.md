@@ -14,13 +14,17 @@ This docker image easies limesurvey installation. It includes a MySQL database a
 
 To run limesurvey in 80 port just:
 
-    docker pull crramirez/limesurvey:latest
-    docker run -d --name limesurvey -p 80:80 crramirez/limesurvey:latest
+```bash
+docker pull crramirez/limesurvey:latest
+docker run -d --name limesurvey -p 80:80 crramirez/limesurvey:latest
+```
 
 The latest image was upgraded to limesurvey 3, to continue using limesurvey 2 use:
 
-    docker pull crramirez/limesurvey:2
-    docker run -d --name limesurvey -p 80:80 crramirez/limesurvey:2
+```bash
+docker pull crramirez/limesurvey:2
+docker run -d --name limesurvey -p 80:80 crramirez/limesurvey:2
+```
 
 1. Go to a browser and type http://localhost
 2. Click Next until you reach the *Database configuration* screen
@@ -38,7 +42,9 @@ You are ready to go.
 
 To run limesurvey in a different http location set the `HTTP_LOCATION` environment variable.
 
-    docker run -d --name limesurvey -p 80:80 -e HTTP_LOCATION="surveys" crramirez/limesurvey:latest
+```bash
+docker run -d --name limesurvey -p 80:80 -e HTTP_LOCATION="surveys" crramirez/limesurvey:latest
+```
 
 Limesurvey will then be available via http://localhost/surveys.
 
@@ -46,9 +52,11 @@ Limesurvey will then be available via http://localhost/surveys.
 
 If you want to preserve data in the event of a container deletion, or version upgrade, you can assign the MySQL data into a named volume:
     
-    docker volume create --name mysql
-    docker run -d --name limesurvey -v mysql:/var/lib/mysql -p 80:80 crramirez/limesurvey:latest
-    
+```bash
+docker volume create --name mysql
+docker run -d --name limesurvey -v mysql:/var/lib/mysql -p 80:80 crramirez/limesurvey:latest
+```  
+
 
 If you delete the container simply run again the above command. The installation page will appear again. Don't worry just put the same parameters as before and limesurvey will recognize the database.
 
@@ -57,8 +65,10 @@ If you delete the container simply run again the above command. The installation
 
 If you want to preserve the uploaded files in the event of a container deletion, or version upgrade, you can assign the upload folder into a named volume:
 
-    docker volume create --name upload
-    docker run -d --name limesurvey -v upload:/app/upload -v mysql:/var/lib/mysql -p 80:80 crramirez/limesurvey:latest
+```bash
+docker volume create --name upload
+docker run -d --name limesurvey -v upload:/app/upload -v mysql:/var/lib/mysql -p 80:80 crramirez/limesurvey:latest
+```
 
 
 If you delete the container simply run again the above command. The installation page will appear again. Don't worry just put the same parameters as before and limesurvey will recognize the database and the uploaded files including images.
@@ -67,23 +77,27 @@ If you delete the container simply run again the above command. The installation
 
 You can use docker compose to automate the above command if you create a file called *docker-compose.yml* and put in there the following:
 
-    version: '2'
-    services:
-      limesurvey:
-        ports:
-          - "80:80"
-        volumes:
-          - mysql:/var/lib/mysql
-          - upload:/app/upload
-        image:
-          crramirez/limesurvey:latest
+```yml
+version: '2'
+services:
+  limesurvey:
+    ports:
+      - "80:80"
     volumes:
-      mysql:
-      upload:
+      - mysql:/var/lib/mysql
+      - upload:/app/upload
+    image:
+      crramirez/limesurvey:latest
+volumes:
+  mysql:
+  upload:
+```
 
 To run:
 
-    docker-compose up -d
+```bash
+docker-compose up -d
+```
 
 The [GitHub repository](https://github.com/crramirez/limesurvey) includes this [*docker-compose.yml*](https://github.com/crramirez/limesurvey/blob/master/docker-compose.yml) file which you can use to setup a basic container structure. You can add a [*docker-compose.override.yml*](https://docs.docker.com/compose/extends/#multiple-compose-files) to edit the default configuration.
 
@@ -95,8 +109,10 @@ The repository also contains a Docker Compose configuration which builds a separ
 
 To run with a separate MySQL-container:
 
-    export COMPOSE_FILE=docker-compose.mysql.yml
-    docker-compose up -d
+```bash
+export COMPOSE_FILE=docker-compose.mysql.yml
+docker-compose up -d
+```
     
 1. Go to a browser and type http://localhost
 2. Click Next until you reach the *Database configuration* screen
@@ -115,9 +131,11 @@ The repository also contains a Docker Compose configuration which builds a separ
 
 To run with a separate PostgreSQL-container:
 
-    export COMPOSE_FILE=docker-compose.pgsql.yml
-    docker-compose up -d
-    
+```bash
+export COMPOSE_FILE=docker-compose.pgsql.yml
+docker-compose up -d
+```    
+
 1. Go to a browser and type http://localhost
 2. Click Next until you reach the *Database configuration* screen
 3. Then enter the following in the field:
